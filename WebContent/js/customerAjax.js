@@ -59,60 +59,6 @@ function addCustomer(e){
 function cargarClientes(){
 	let customerTableBody = document.querySelector("#customerTable tbody");
 
-    /*$.post("./../CustomerController", {peticion: "2"} , function(resp) {
-
-		console.log(resp);
-		if (resp.areThereCustomers) {
-			let dataClientes = resp.customerData;
-			$(".peticion").remove();
-			customerTableBody.innerHTML = "";
-			
-			dataClientes.forEach(element => {
-				
-				customerTableBody.innerHTML += `
-				
-					<tr>
-						<td>${element.nombre}</td>
-						<td>${element.domicilio}</td>
-						<td>${element.estado}</td>
-						<td id="${element.idCliente}"></td>
-					</tr>
-				
-				`;
-
-				//button to delete a customer
-				btn_deleteCustomer.classList.add("btn", "btn-danger", "btn-removing-customer");
-				btn_deleteCustomer.innerText = "Remove";
-				btn_deleteCustomer.setAttribute("id", "r-" + element.idCliente);
-
-				//button to update a customer
-				btn_editCustomer.classList.add("btn", "btn-success", "btn-editing-customer");
-				btn_editCustomer.setAttribute("data-toggle", "modal");
-				btn_editCustomer.setAttribute("data-target", "#editCustomerModal");
-				btn_editCustomer.innerText = "Edit";
-				btn_editCustomer.setAttribute("id", "e-" + element.idCliente);
-
-				//adding buttons to datatable
-				let tdAppendButtons = document.getElementById(element.idCliente);
-				tdAppendButtons.appendChild(btn_editCustomer);
-				tdAppendButtons.appendChild(btn_deleteCustomer);
-
-				let btnDeleteClass = document.querySelectorAll("button.btn.btn-danger.btn-removing-customer");
-				btnDeleteClass.forEach(button => {
-					button.addEventListener('click', removeCustomer);
-				});
-
-				let btnUpdateClass = document.querySelectorAll("button.btn.btn-success.btn-editing-customer");
-				btnUpdateClass.forEach(button => {
-					button.addEventListener('click', seleccionarCliente);
-				});
-
-			});
-			
-		}
-
-	}, "json");*/
-
 	$.ajax({
 		type: "POST",
 		url: './../CustomerController',
