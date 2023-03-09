@@ -15,36 +15,34 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.trancy.DAO.ClientesDAO;
+import com.trancy.DAO.UsuariosDAO;
 import com.trancy.modelo.ClientesModelo;
+import com.trancy.modelo.UsuariosModelo;
 
 /**
- * Servlet implementation class ClientesControlador
+ * Servlet implementation class UsuariosControlador
  */
-@WebServlet(name = "CustomerController", urlPatterns = { "/CustomerController" })
-public class ClientesControlador extends HttpServlet {
+@WebServlet(name = "usersController", urlPatterns = { "/usersController" })
+public class UsuariosControlador extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ClientesControlador() {
+    public UsuariosControlador() {
         super();
         // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
+		
 		int peticion = Integer.parseInt(request.getParameter("peticion"));
-		ClientesDAO clientesDao = new ClientesDAO();
-		ClientesModelo clientesModelo = new ClientesModelo();
+		UsuariosDAO usuariosDao = new UsuariosDAO();
+		UsuariosModelo usuariosModelo = new UsuariosModelo();
 		
 		//JSON configuration
 		response.setContentType("application/json");
@@ -56,12 +54,25 @@ public class ClientesControlador extends HttpServlet {
 		
 		switch (peticion) {
 			case 1:
-				clientesModelo.setNombre(request.getParameter("customerName"));
-				clientesModelo.setDomicilio(request.getParameter("customerAddress"));
-				clientesModelo.setEstado(request.getParameter("customerState"));
+				usuariosModelo.setEmail(request.getParameter("newUserEmail"));
+				usuariosModelo.setPassword(request.getParameter("newUserPassword2"));
+				usuariosModelo.setNombre(request.getParameter("newUserName"));
+				usuariosModelo.setApellidos(request.getParameter("newUserLastName"));
+				
+				int idRole = 0;
+				
+				if(request.getParameter("newUserRole").equals("application manager")) {
+					idRole = 1;
+				} else if (request.getParameter("newUserRole").equals("normal user")) {
+					idRole = 2;
+				} else if (request.getParameter("newUserRole").equals("reader")) {
+					idRole = 3;
+				}
+	
+				usuariosModelo.setRoles(idRole);
 				
 				try {
-					if(clientesDao.agregarCliente(clientesModelo)) {
+					if(usuariosDao.agregarUsuario(usuariosModelo)) {
 	
 						// put some values into the JSON object .
 						json.put("insertResult", true);
@@ -86,14 +97,14 @@ public class ClientesControlador extends HttpServlet {
 			case 2:
 				try {
 					
-					if(clientesDao.mostrarClientes().size() > 0) {
+					if(usuariosDao.mostrarUsuarios().size() > 0) {
 	
 						// put some values into the JSON object .
 						//json.put("areThereCustomers", true);
 						//json.put("customerData", clientesDao.mostrarClientes());
 						
 						Gson gson = new Gson();
-						String JSON = gson.toJson(clientesDao.mostrarClientes());
+						String JSON = gson.toJson(usuariosDao.mostrarUsuarios());
 						
 						// finally output the json string       
 						out.print(JSON.toString());
@@ -111,18 +122,30 @@ public class ClientesControlador extends HttpServlet {
 			break;
 			
 			case 3:
-				String idClienteToUpdate = request.getParameter("numberCustomer");
-				String nameCustomer = request.getParameter("customerNameUpdate");
-				String addressCustomer = request.getParameter("customerAddressUpdate");
-				String stateCustomer = request.getParameter("customerStateUpdate");
+				String idUserToUpdate = request.getParameter("idUser");
+				String nameUser = request.getParameter("userNameUpdate");
+				String emailUser = request.getParameter("userEmailUpdate");
+				String userLastName = request.getParameter("userLastNameUpdate");
 				
-				clientesModelo.setIdCliente(Integer.parseInt(idClienteToUpdate));
-				clientesModelo.setNombre(nameCustomer);
-				clientesModelo.setDomicilio(addressCustomer);
-				clientesModelo.setEstado(stateCustomer);
+				usuariosModelo.setIdUsuario(Integer.parseInt(idUserToUpdate));
+				usuariosModelo.setEmail(emailUser);
+				usuariosModelo.setNombre(nameUser);
+				usuariosModelo.setApellidos(userLastName);
+				
+				int idRoleUpdate = 0;
+				
+				if(request.getParameter("userRoleUpdate").equals("application manager")) {
+					idRoleUpdate = 1;
+				} else if (request.getParameter("userRoleUpdate").equals("normal user")) {
+					idRoleUpdate = 2;
+				} else if (request.getParameter("userRoleUpdate").equals("reader")) {
+					idRoleUpdate = 3;
+				}
+				
+				usuariosModelo.setRoles(idRoleUpdate);
 				
 				try {
-					if (clientesDao.actualizarCliente(clientesModelo)) {
+					if (usuariosDao.actualizarUsuario(usuariosModelo)) {
 						// put some values into the JSON object .
 						json.put("resultUpdate", true);
 	
@@ -136,14 +159,13 @@ public class ClientesControlador extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 			break;
 			
 			case 4:
-				String idClienteToDelete = request.getParameter("idCustomer").replace("r-", "");
-				clientesModelo.setIdCliente(Integer.parseInt(idClienteToDelete));
+				String idUserToDelete = request.getParameter("idUser").replace("r-", "");
+				usuariosModelo.setIdUsuario(Integer.parseInt(idUserToDelete));
 				try {
-					if (clientesDao.eliminarCliente(clientesModelo)) {
+					if (usuariosDao.eliminarUsuario(usuariosModelo)) {
 						// put some values into the JSON object .
 						json.put("resultDelete", true);
 	
@@ -161,20 +183,20 @@ public class ClientesControlador extends HttpServlet {
 			break;
 			
 			case 5:
-				String idClienteToCheck = request.getParameter("idCustomer").replace("e-", "");
-				clientesModelo.setIdCliente(Integer.parseInt(idClienteToCheck));
+				String idUserToCheck = request.getParameter("idUser").replace("e-", "");
+				usuariosModelo.setIdUsuario(Integer.parseInt(idUserToCheck));
 				try {
-					if(clientesDao.mostrarClientePorId(clientesModelo).size() > 0) {
+					if(usuariosDao.mostrarUsuarioPorId(usuariosModelo).size() > 0) {
 	
 						// put some values into the JSON object .
-						json.put("isThereCustomer", true);
-						json.put("customerData", clientesDao.mostrarClientePorId(clientesModelo));
+						json.put("isThereUser", true);
+						json.put("userData", usuariosDao.mostrarUsuarioPorId(usuariosModelo));
 	
 						// finally output the json string       
 						out.print(json.toString());
 						
 					} else {
-						json.put("isThereCustomers", false);
+						json.put("isThereUser", false);
 						out.print(json.toString());
 					}
 				} catch (JSONException e) {

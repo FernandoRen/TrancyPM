@@ -14,20 +14,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
-import com.trancy.DAO.ClientesDAO;
-import com.trancy.modelo.ClientesModelo;
+import com.trancy.DAO.ProveedoresDAO;
+import com.trancy.modelo.ProveedoresModelo;
 
 /**
- * Servlet implementation class ClientesControlador
+ * Servlet implementation class ProveedoresControlador
  */
-@WebServlet(name = "CustomerController", urlPatterns = { "/CustomerController" })
-public class ClientesControlador extends HttpServlet {
+@WebServlet(name = "ProviderController", urlPatterns = { "/ProviderController" })
+public class ProveedoresControlador extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ClientesControlador() {
+    public ProveedoresControlador() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,17 +35,19 @@ public class ClientesControlador extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-
 	/**
+	 * 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		int peticion = Integer.parseInt(request.getParameter("peticion"));
-		ClientesDAO clientesDao = new ClientesDAO();
-		ClientesModelo clientesModelo = new ClientesModelo();
+		ProveedoresDAO proveedorDao = new ProveedoresDAO();
+		ProveedoresModelo proveedorModelo = new ProveedoresModelo();
 		
+
 		//JSON configuration
 		response.setContentType("application/json");
 		response.setCharacterEncoding("utf-8");
@@ -56,12 +58,12 @@ public class ClientesControlador extends HttpServlet {
 		
 		switch (peticion) {
 			case 1:
-				clientesModelo.setNombre(request.getParameter("customerName"));
-				clientesModelo.setDomicilio(request.getParameter("customerAddress"));
-				clientesModelo.setEstado(request.getParameter("customerState"));
+				proveedorModelo.setNombre(request.getParameter("providerName"));
+				proveedorModelo.setDomicilio(request.getParameter("providerAddress"));
+				proveedorModelo.setEstado(request.getParameter("providerState"));
 				
 				try {
-					if(clientesDao.agregarCliente(clientesModelo)) {
+					if(proveedorDao.agregarCliente(proveedorModelo)) {
 	
 						// put some values into the JSON object .
 						json.put("insertResult", true);
@@ -79,21 +81,17 @@ public class ClientesControlador extends HttpServlet {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
+				}
 				
 			break;
 			
 			case 2:
 				try {
 					
-					if(clientesDao.mostrarClientes().size() > 0) {
-	
-						// put some values into the JSON object .
-						//json.put("areThereCustomers", true);
-						//json.put("customerData", clientesDao.mostrarClientes());
+					if(proveedorDao.mostrarProveedores().size() > 0) {
 						
 						Gson gson = new Gson();
-						String JSON = gson.toJson(clientesDao.mostrarClientes());
+						String JSON = gson.toJson(proveedorDao.mostrarProveedores());
 						
 						// finally output the json string       
 						out.print(JSON.toString());
@@ -111,18 +109,18 @@ public class ClientesControlador extends HttpServlet {
 			break;
 			
 			case 3:
-				String idClienteToUpdate = request.getParameter("numberCustomer");
-				String nameCustomer = request.getParameter("customerNameUpdate");
-				String addressCustomer = request.getParameter("customerAddressUpdate");
-				String stateCustomer = request.getParameter("customerStateUpdate");
+				String idProviderToUpdate = request.getParameter("numberProvider");
+				String nameProvider = request.getParameter("providerNameUpdate");
+				String addressProvider = request.getParameter("providerAddressUpdate");
+				String stateProvider = request.getParameter("providerStateUpdate");
 				
-				clientesModelo.setIdCliente(Integer.parseInt(idClienteToUpdate));
-				clientesModelo.setNombre(nameCustomer);
-				clientesModelo.setDomicilio(addressCustomer);
-				clientesModelo.setEstado(stateCustomer);
+				proveedorModelo.setIdProveedor(Integer.parseInt(idProviderToUpdate));
+				proveedorModelo.setNombre(nameProvider);
+				proveedorModelo.setDomicilio(addressProvider);
+				proveedorModelo.setEstado(stateProvider);
 				
 				try {
-					if (clientesDao.actualizarCliente(clientesModelo)) {
+					if (proveedorDao.actualizarProveedor(proveedorModelo)) {
 						// put some values into the JSON object .
 						json.put("resultUpdate", true);
 	
@@ -140,10 +138,10 @@ public class ClientesControlador extends HttpServlet {
 			break;
 			
 			case 4:
-				String idClienteToDelete = request.getParameter("idCustomer").replace("r-", "");
-				clientesModelo.setIdCliente(Integer.parseInt(idClienteToDelete));
+				String idProviderToDelete = request.getParameter("idProvider").replace("r-", "");
+				proveedorModelo.setIdProveedor(Integer.parseInt(idProviderToDelete));
 				try {
-					if (clientesDao.eliminarCliente(clientesModelo)) {
+					if (proveedorDao.eliminarProveedor(proveedorModelo)) {
 						// put some values into the JSON object .
 						json.put("resultDelete", true);
 	
@@ -161,20 +159,20 @@ public class ClientesControlador extends HttpServlet {
 			break;
 			
 			case 5:
-				String idClienteToCheck = request.getParameter("idCustomer").replace("e-", "");
-				clientesModelo.setIdCliente(Integer.parseInt(idClienteToCheck));
+				String idProviderToCheck = request.getParameter("idProveedor").replace("e-", "");
+				proveedorModelo.setIdProveedor(Integer.parseInt(idProviderToCheck));
 				try {
-					if(clientesDao.mostrarClientePorId(clientesModelo).size() > 0) {
+					if(proveedorDao.mostrarProveedorPorId(proveedorModelo).size() > 0) {
 	
 						// put some values into the JSON object .
-						json.put("isThereCustomer", true);
-						json.put("customerData", clientesDao.mostrarClientePorId(clientesModelo));
+						json.put("isThereProvider", true);
+						json.put("providerData", proveedorDao.mostrarProveedorPorId(proveedorModelo));
 	
 						// finally output the json string       
 						out.print(json.toString());
 						
 					} else {
-						json.put("isThereCustomers", false);
+						json.put("isThereProvider", false);
 						out.print(json.toString());
 					}
 				} catch (JSONException e) {
@@ -186,8 +184,9 @@ public class ClientesControlador extends HttpServlet {
 				}
 				
 			break;
-
+			
 		}
+		
 	}
 
 }

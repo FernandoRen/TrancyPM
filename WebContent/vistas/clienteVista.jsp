@@ -78,12 +78,9 @@
 						<th class="th-sm">Name</th>
 						<th class="th-sm">Address</th>
 						<th class="th-sm">State</th>
-						<th class="th-sm">Operations</th>
+						<th class="th-sm operations">Operations</th>
 					</tr> 
 				</thead>
-				<!-- <tbody>
-					
-				</tbody> -->
 			</table>
 
 		</div>

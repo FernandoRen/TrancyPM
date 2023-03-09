@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ include file = "./../validacion.jsp" %>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -45,6 +46,10 @@
 	      </li>
 	      
 	      <li class="nav-item">
+	        <a class="nav-link text-white" href="usuariosVista.jsp">Users</a>
+	      </li>
+	      
+	      <li class="nav-item">
 	        <a class="nav-link text-white" href="buscarPaquetesVista.jsp">Search Packages</a>
 	      </li>
 	      
@@ -57,7 +62,7 @@
 		          <i class="fa fa-cog" aria-hidden="true"></i> Options
 		        </a>
 		        <div class="dropdown-menu dropdown-menu-right margin-0-auto" aria-labelledby="navbarDropdownMenuLink">
-		          <a class="dropdown-item" href="#"><i class="fa fa-refresh" aria-hidden="true"></i>   Change your password</a>
+		          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#changePasswordModal"><i class="fa fa-refresh" aria-hidden="true"></i>   Change your password</a>
 		          <a class="dropdown-item" href="#">
 				  	<i class="fa fa-sign-out" aria-hidden="true"></i> Log out
 			      </a>

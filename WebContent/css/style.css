@@ -6,8 +6,11 @@
   box-sizing: border-box;
 }
 
-body{
+html, body{
 	font-family: 'Ubuntu', sans-serif;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 .my-container-css{
@@ -16,6 +19,10 @@ body{
 	align-items: center;
    	justify-content: center;
    	margin-top:-30px;
+}
+
+.container{
+	min-height: 100%; /* línea importante para que el body ocupe todo el espacio disponible ya que si no está, el footer se sube y se ve feo */
 }
 
 .box-shadow{
@@ -101,6 +108,14 @@ label{
 	margin: 0 auto;
 }
 
+.fa{
+	padding-top: 7px!important;
+}
+
+.font-family-ubuntu{
+	font-family: 'Ubuntu', sans-serif!important;
+}
+
 .btn{
 	width: 90%;
 	height:30px;
@@ -145,6 +160,17 @@ label{
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.operations{
+	max-width: 80px!important;
+}
+
+.flex-buttons{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
 }
 
 .footer-page{

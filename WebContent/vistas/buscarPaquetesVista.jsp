@@ -16,14 +16,15 @@
 				  </div>
 				  
 				  <div class="text-center">
-				  	<button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+				  	<i id="btn-searchPackage" class="fa fa-search btn btn-primary" aria-hidden="true"><span class="font-family-ubuntu"> Search</span></i>  
 				  </div>
 				</form>
 			</div>
 		
 			<div class="col-md-8">
 				
-				<table id="providerTable" class="display" style="width:100%">
+				<table id="searchPackagesTable" class="table table-striped table-bordered"
+					cellspacing="0" width="100%">
 			        <thead>
 			            <tr>
 			                <th>Name</th>
@@ -115,4 +116,4 @@
 	</div>
 
 <%@ include file = "header-footer/footer.jsp" %>
-<script src="./../js/providerAjax.js"></script>
+<script src="./../js/searchPackage.js"></script>

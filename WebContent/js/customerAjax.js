@@ -1,19 +1,16 @@
 (() => {
-  	
+	"use strict";
 	document.addEventListener("DOMContentLoaded", () => {
 
 		contentLoadeds();
+		$('#customerTable').DataTable();
 
 	});  
 })();
 
-let btn_editCustomer = document.createElement("button");
-let btn_deleteCustomer = document.createElement("button");
-
 function contentLoadeds() {
 	let btnAddCustomer = document.getElementById("btn-addCustomer");
 	
-	//});
 	cargarClientes();
 	btnAddCustomer.addEventListener('click', addCustomer);
 }
@@ -43,10 +40,11 @@ function addCustomer(e){
 		customerForm_DOM.append(`<input type="hidden" name="peticion" class="peticion" value="1">`);
         $.post("./../CustomerController", customerForm_DOM.serialize() , function(resp) {
 
-			console.log(resp);
+			//console.log(resp);
 			if (resp.insertResult === true) {
 				$(".peticion").remove();
 				cargarClientes();
+				customerForm_DOM[0].reset();
 				Swal.fire("Success", "Customer added succesfully", "success");
 			} else {
 				Swal.fire("Error", "Customer could not be added, please try again", "error");
@@ -57,7 +55,12 @@ function addCustomer(e){
 }
 
 function cargarClientes(){
-	let customerTableBody = document.querySelector("#customerTable tbody");
+
+	$('#customerTable tbody').html(`
+		<tr class="odd">
+			<td valign="top" colspan="4" class="dataTables_empty">No data available in table</td>
+		</tr>
+	`);
 
 	$.ajax({
 		type: "POST",
@@ -78,20 +81,21 @@ function cargarClientes(){
 					//{ 'data': 'idCliente' },
 					{ 'data': 'idCliente',
 						"render" : function ( data, type, row, meta ){
-							return `<button type="button" class="btn btn-success btn-editing-customer" id="e-${data}" data-toggle="modal" data-target="#editCustomerModal">Edit</button>
-									<button type="button" class="btn btn-danger btn-removing-customer" id="r-${data}">Remove</button>`;
+							return `<div class="flex-buttons">
+										<i class="fa fa-pencil btn btn-success btn-editing-customer" aria-hidden="true" id="e-${data}" data-toggle="modal" data-target="#editCustomerModal"></i>
+										<i class="fa fa-trash btn btn-danger btn-removing-customer" id="r-${data}" aria-hidden="true"></i>
+									</div>`;
 						}
 
 					},
 				]
 			});
-			let btnDeleteClass = document.querySelectorAll("button.btn.btn-danger.btn-removing-customer");
+			let btnDeleteClass = document.querySelectorAll("i.btn.btn-danger.btn-removing-customer");
 			btnDeleteClass.forEach(button => {
 				button.addEventListener('click', removeCustomer);
 			});
-			console.log(btnDeleteClass);
 
-			let btnUpdateClass = document.querySelectorAll("button.btn.btn-success.btn-editing-customer");
+			let btnUpdateClass = document.querySelectorAll("i.btn.btn-success.btn-editing-customer");
 			btnUpdateClass.forEach(button => {
 				button.addEventListener('click', seleccionarCliente);
 			});

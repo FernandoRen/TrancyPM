@@ -8,10 +8,11 @@ public class UsuariosModelo {
 	private String nombre;
 	private String apellidos;
 	private int roles;
+	private String rolDescripcion;
 	private boolean status;
 	
 	
-	public UsuariosModelo(int idUsuario, String email, String password, String nombre, String apellidos, int roles,
+	public UsuariosModelo(int idUsuario, String email, String password, String nombre, String apellidos, int roles, String rolDescripcion,
 			boolean status) {
 		super();
 		this.idUsuario = idUsuario;
@@ -20,6 +21,7 @@ public class UsuariosModelo {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.roles = roles;
+		this.rolDescripcion = rolDescripcion;
 		this.status = status;
 	}
 
@@ -89,6 +91,16 @@ public class UsuariosModelo {
 	}
 
 
+	public String getRolDescripcion() {
+		return rolDescripcion;
+	}
+
+
+	public void setRolDescripcion(String rolDescripcion) {
+		this.rolDescripcion = rolDescripcion;
+	}
+
+
 	public boolean isStatus() {
 		return status;
 	}
@@ -98,10 +110,12 @@ public class UsuariosModelo {
 		this.status = status;
 	}
 
+
 	@Override
 	public String toString() {
 		return "UsuariosModelo [idUsuario=" + idUsuario + ", email=" + email + ", password=" + password + ", nombre="
-				+ nombre + ", apellidos=" + apellidos + ", roles=" + roles + ", status=" + status + "]";
+				+ nombre + ", apellidos=" + apellidos + ", roles=" + roles + ", rolDescripcion=" + rolDescripcion
+				+ ", status=" + status + "]";
 	}
 	
 }
